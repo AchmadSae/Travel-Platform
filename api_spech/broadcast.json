@@ -1,0 +1,93 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Broadcast JOB API",
+        "description": "Broadcast API JOB for notifications all the type of the notif, run every 1 hours",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/broadcast/start": {
+            "get": {
+                "summary": "Start BroadCast Notifications",
+                "description": "Start JOB for send all the newest notifications every a hours, included ( incoming orders, feedback, upcoming departure )",
+                "responses": {
+                    "200": {
+                        "description": "Notifications broadcast successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "jobId": {
+                                            "type": "string",
+                                            "example": "BAT_100"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Notifications broadcast successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/garbage": {
+            "delete": {
+                "summary": "Delete Cache",
+                "description": "Delete all the cache data",
+                "responses": {
+                    "200": {
+                        "description": "Cache deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "jobId": {
+                                            "type": "string",
+                                            "example": "BAT_100"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cache deleted successfully"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

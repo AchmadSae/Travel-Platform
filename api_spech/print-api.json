@@ -1,0 +1,236 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Print API",
+        "description": "Print API for export PDF or CSV",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/print/datas": {
+            "get": {
+                "summary": "Export data data to PDF or CSV",
+                "description": "Export data to PDF or CSV X-CLIENT-ID admin",
+                "responses": {
+                    "200": {
+                        "description": "Data exported successfully",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/exportRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/print/receipt{id}": {
+            "get": {
+                "summary": "Print orders receipt to PDF",
+                "description": "Print orders receipt to PDF X-CLIENT-ID customer",
+                "responses": {
+                    "200": {
+                        "description": "Orders receipt printed successfully",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "order_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/print/invoice{id}" : {
+            "get" : {
+                "summary": "Print orders receipt to PDF",
+                "description": "Print orders receipt to PDF X-CLIENT-ID customer",
+                "responses": {
+                    "200": {
+                        "description": "Orders invoice printed successfully",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "order_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/print/return": {
+            "get": {
+
+                "summary": "Print return receipt to PDF",
+                "description": "Print return receipt to PDF X-CLIENT-ID customer",
+                "responses": {
+                    "200": {
+                        "description": "Orders return printed successfully",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "order_id": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "exportRequest": {
+                "type": "object",
+                "properties": {
+                    "types": {
+                        "type": "string"
+                    },
+                    "filter": {
+                        "type": "object"
+                    }
+                }
+            }
+        }
+    }
+}

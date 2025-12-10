@@ -1,0 +1,250 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Articles",
+        "description": "Manage Articles",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/article": {
+            "post": {
+                "summary": "Add Article",
+                "description": "Add Article",
+                "responses": {
+                    "200": {
+                        "description": "Article added successfully"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/articleRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/articles": {
+            "get": {
+                "summary": "Get Articles",
+                "description": "Get Articles",
+                "responses": {
+                    "200": {
+                        "description": "Articles retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/articleRequest"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/article/{id}": {
+            "get": {
+                "summary": "Get Article by Id",
+                "description": "Get Article",
+                "responses": {
+                    "200": {
+                        "description": "Article retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/articleRequest"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "article_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update Article by Id",
+                "description": "Update Article",
+                "responses": {
+                    "200": {
+                        "description": "Article updated successfully"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "article_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/articleRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete Article by Id",
+                "description": "Delete Article",
+                "responses": {
+                    "200": {
+                        "description": "Article deleted successfully"
+                    },
+                    "500": {
+                        "description": "internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "article_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "articleRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "product_id": {
+                        "type": "string"
+                    },
+                    "summary": {
+                        "type": "string"
+                    },
+                    "content1": {
+                        "type": "string"
+                    },
+                    "content2": {
+                        "type": "string"
+                    },
+                    "content3": {
+                        "type": "string"
+                    },
+                    "image1": {
+                        "type": "string"
+                    },
+                    "image2": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeys": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CLIENT-ID",
+                "description": "Define the specific client id to access the API"
+            },
+            "bearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CREDENTIALS-TOKEN",
+                "description": "Define the specific token to access the API"
+            }
+        }
+    }
+}

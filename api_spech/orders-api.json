@@ -1,0 +1,382 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Orders API",
+        "description": "Orders API in travels applications need tokens for the requests, this API also linkage for the user as customers",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/orders": {
+          "post" : {
+              "summary" : "Add Orders",
+              "description": "Customer add orders by X-CLIENT-ID as customers This endpoint retrieves an order and enriches it with product details from the Products API.",
+              "responses": {
+                  "200": {
+                      "description": "Orders added successfully",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "name": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  "400": {
+                      "description": "Bad Request"
+                  }
+              },
+              "security": [
+                  {
+                      "apiKeys": []
+                  },
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/OrderRequest"
+                          }
+                      }
+                  }
+              }
+          },
+          "get": {
+              "summary": "Get Orders by Filters",
+              "description": "Get orders by X-CLIENT-ID as admin This endpoint retrieves an order and enriches it with product details from the Products API.",
+              "responses": {
+                  "200": {
+                      "description": "Orders retrieved successfully",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "name": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  "400": {
+                      "description": "Bad Request"
+                  }
+              },
+              "security": [
+                  {
+                      "apiKeys": []
+                  },
+                  {
+                      "bearerAuth": []
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/filterOrders"
+                          }
+                      }
+                  }
+              }
+          }
+        },
+        "/api/orders/{id}": {
+            "put": {
+                "summary": "Update Orders",
+                "description": "Update the specific value in orders, permission by Admin",
+                "responses": {
+                    "200": {
+                        "description": "Orders added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderRequest"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete orders",
+                "description": "Delete orders by specific order_id, X-CLIENT-ID admin",
+                "responses": {
+                    "200": {
+                        "description": "Orders deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/approved/orders/{id}": {
+            "put": {
+                "summary": "Approved Orders",
+                "description": "Admin approved orders with payed orders",
+                "responses": {
+                    "200": {
+                        "description": "Orders added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "OrderRequest": {
+            "type": "object",
+            "required": [
+                "customer_email",
+                "product_id",
+                "payment_method"
+            ],
+            "properties": {
+                "customer_email": {
+                    "type": "integer",
+                    "description": "Customer ID"
+                },
+                "product_id": {
+                    "type": "string",
+                    "description": "Product ID"
+                },
+                "payment_method": {
+                    "type": "string",
+                    "description": "Payment method"
+                },
+                "departure": {
+                    "type": "string",
+                    "format": "date",
+                    "nullable": true,
+                    "description": "Departure date"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "Order quantity"
+                },
+                "isAffiliate": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether the order is from affiliate"
+                },
+                "group_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Group ID for group travel"
+                },
+                "coupons_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Coupon applied to the order"
+                }
+            }
+        },
+        "customerInformation": {
+                "type": "object",
+                "properties": {
+                    "full_name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "required": true,
+                        "format": "email"
+                    },
+                    "city": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "address": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "phoneNumber":{
+                        "type": "number",
+                        "required": false
+                    }
+                }
+            },
+            "productInformation": {
+                "type": "object",
+                "properties": {
+                    "product_name": {
+                        "type": "string"
+                    },
+                    "product_price": {
+                        "type": "number"
+                    },
+                    "product_category": {
+                        "type": "string"
+                    },
+                    "product_descriptions": {
+                        "type": "string"
+                    },
+                    "product_images": {
+                        "type": "string"
+                    },
+                    "departure": {
+                        "type": "date"
+                    }
+                }
+            },
+            "paymentRequest": {
+                "type": "object",
+                "properties": {
+                    "payment_method": {
+                        "type": "string"
+                    },
+                    "payment_amount": {
+                        "type": "number"
+                    },
+                    "expired": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "filterOrders": {
+                "type": "object",
+                "properties": {
+                    "searchBy": {
+                        "type": "string",
+                        "description": "Search by order id or date_departure or name the customers or the place destinations",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeys": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CLIENT-ID",
+                "description": "Define the specific client id to access the API"
+            },
+            "bearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CREDENTIALS-TOKEN",
+                "description": "Define the specific token to access the API"
+            }
+        }
+    }
+}

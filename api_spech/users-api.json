@@ -1,0 +1,306 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Users API",
+        "description": "Users API in travels applications need tokens for the requests, this API also linkage for the user as customers",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/users/create" : {
+            "post" : {
+                "summary" : "Create new user",
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/update/{id}" : {
+            "put" : {
+                "summary" : "Update user",
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userRequest"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users/delete/{id}" : {
+            "delete" : {
+                "summary" : "Delete user",
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "X-CREDENTIALS-TOKEN",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/users/get/{id}" : {
+            "get" : {
+                "summary" : "Get user",
+                "description": "Get user by id",
+                "responses": {
+                    "200": {
+                        "description": "Get user successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userRequest"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "X-CREDENTIALS-TOKEN",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "X-CLIENT-ID",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "description": "Client ID for authentication"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/api/users/auth": {
+            "get": {
+                "summary": "Authorization in clients",
+                "description": "All the login auth will be call this API",
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/authResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "loginRequests": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "authResponse": {
+                "token": {
+                    "type": "string"
+                },
+                "client_id": {
+                    "type": "string"
+                },
+                "expired":{
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "userRequest": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "email": {
+                        "type": "string",
+                        "required": true,
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "fullName": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "address": {
+                        "type": "string",
+                        "required": false
+                    },
+                    "phoneNumber":{
+                        "type": "number",
+                        "required": false
+                    },
+                    "role": {
+                        "type": "string",
+                        "required": false,
+                        "format": "char"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeys": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CLIENT-ID",
+                "description": "Define the specific client id to access the API"
+            },
+            "bearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CREDENTIALS-TOKEN",
+                "description": "Define the specific token to access the API"
+            }
+        }
+    }
+}

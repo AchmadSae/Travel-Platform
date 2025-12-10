@@ -1,0 +1,337 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Products API",
+        "description": "products have an common features, when customers visit the website they can search by snack bar and can see the current promo products",
+        "version": "1.0.0",
+        "contact": {
+            "name" : "Achmad Saepudin",
+            "email" : "sssnerv@gmail.com",
+            "url" : "https://github.com/AchmadSae"
+        },
+        "license": {
+            "name" : "Apache-2.0",
+            "url" : "https://github.com/AchmadSae/travels-api/blob/main/LICENSE"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        },
+        {
+            "url": "https://digi.com",
+            "description": "production server"
+        }
+    ],
+    "paths": {
+        "/api/products": {
+            "post": {
+                "summary" : "Add Products",
+                "description": "Admin can add products by X-CLIENT-ID as admin",
+                "responses": {
+                    "200": {
+                        "description": "Products add successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/productRequest"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/productRequest"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/{id}" : {
+            "get" : {
+                "summary" : "Get products",
+                "description": "Get single products with specific id",
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/product/edit/{id}": {
+            "put": {
+                "summary" : "Update Products",
+                "description": "Admin can update products by X-CLIENT-ID as admin",
+                "responses": {
+                    "200": {
+                        "description": "Products updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "product_name": {
+                                        "type": "string"
+                                    },
+                                    "product_price": {
+                                        "type": "string"
+                                    },
+                                    "product_description": {
+                                        "type": "string"
+                                    },
+                                    "product_image": {
+                                        "type": "string"
+                                    },
+                                    "product_category": {
+                                        "type": "string"
+                                    },
+                                    "available_departure": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "product_status": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/delete/{id}": {
+            "delete": {
+                "summary" : "Delete products",
+                "description": "Delete single products with specific id",
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/productsByFilters": {
+            "get": {
+                "summary" : "Get products list",
+                "description": "Get filters products by customers needed, this accessed in snackbar",
+                "responses": {
+                    "200": {
+                        "description": "Products retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeys": []
+                    },
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "description": "Quantity bookings",
+                                        "example": 1,
+                                        "required": true
+                                    },
+                                    "range_date_available": {
+                                        "type": "array",
+                                        "description": "Range date available",
+                                        "example": ["2025-11-18", "2025-11-20"],
+                                        "required": true
+                                    },
+                                    "bundles": {
+                                        "type": "string",
+                                        "description": "Bundles available in dropdown",
+                                        "example":"bundle1",
+                                        "required": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    },
+    "components": {
+        "schemas": {
+            "productRequest": {
+                "type": "object",
+                "properties": {
+                    "product_name": {
+                        "type": "string"
+                    },
+                    "product_price": {
+                        "type": "string"
+                    },
+                    "product_description": {
+                        "type": "string"
+                    },
+                    "product_image": {
+                        "type": "string"
+                    },
+                    "product_category": {
+                        "type": "string"
+                    },
+                    "available_departure": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "product_status": {
+                        "type": "boolean"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "apiKeys": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CLIENT-ID",
+                "description": "Define the specific client id to access the API"
+            },
+            "bearerAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-CREDENTIALS-TOKEN",
+                "description": "Define the specific token to access the API"
+            }
+        }
+    }
+}
